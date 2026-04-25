@@ -1,0 +1,365 @@
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+/* NAV */
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 50; }
+.logo-block { line-height: 1.2; cursor: pointer; }
+.logo-line1 { font-size: 11px; font-weight: 500; color: #0F6E56; letter-spacing: 0.14em; text-transform: uppercase; }
+.logo-line2 { font-size: 22px; font-weight: 500; color: #085041; }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-btn { padding: 7px 14px; font-size: 13px; border-radius: var(--border-radius-md); cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); }
+.nav-btn.active, .nav-btn:hover { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* HERO */
+.hero { background: #E1F5EE; padding: 32px 20px; text-align: center; }
+.hero-eyebrow { font-size: 11px; color: #0F6E56; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+.hero h1 { font-size: 22px; font-weight: 500; color: #085041; margin-bottom: 6px; }
+.hero p { font-size: 14px; color: #0F6E56; margin-bottom: 18px; }
+.search-row { display: flex; max-width: 400px; margin: 0 auto; gap: 8px; }
+.search-row input { flex: 1; padding: 9px 14px; border: 0.5px solid #9FE1CB; border-radius: var(--border-radius-md); font-size: 14px; background: white; color: var(--color-text-primary); }
+.search-row button { padding: 9px 16px; background: #1D9E75; color: white; border: none; border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; }
+
+/* PRODUCTS */
+.section-hd { padding: 22px 20px 12px; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; padding: 0 20px 24px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+.card:hover { border-color: #9FE1CB; }
+.img-wrap { width: 100%; height: 148px; background: #f4fdf9; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }  /* ← FIXED: added overflow hidden */
+.img-wrap img { max-width: 100%; max-height: 128px; object-fit: contain; width: 100%; } /* ← added width:100% for stability */
+.card-body { padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; }
+.card-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; line-height: 1.4; flex: 1; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.price { font-size: 14px; font-weight: 500; color: #0F6E56; white-space: nowrap; }
+.buy-btn { font-size: 11px; padding: 5px 10px; background: #1D9E75; color: white; border: none; border-radius: var(--border-radius-md); cursor: pointer; white-space: nowrap; flex-shrink: 0; font-weight: 500; }
+.buy-btn:hover { background: #0F6E56; }
+.buy-btn:active { transform: scale(0.97); }
+
+/* MODAL (kept but not used for ordering) */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--color-background-primary); border-radius: var(--border-radius-lg); padding: 24px; max-width: 340px; width: 100%; border: 0.5px solid var(--color-border-tertiary); }
+.modal h3 { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.modal-price { font-size: 15px; color: #0F6E56; font-weight: 500; margin-bottom: 16px; }
+.modal p { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; line-height: 1.6; }
+.modal-contact { background: #E1F5EE; border-radius: var(--border-radius-md); padding: 12px 14px; margin-bottom: 16px; }
+.modal-contact div { font-size: 13px; color: #085041; margin-bottom: 4px; }
+.modal-contact a { font-size: 15px; font-weight: 500; color: #0F6E56; text-decoration: none; }
+.modal-btns { display: flex; gap: 8px; }
+.modal-call { flex: 1; padding: 9px; background: #1D9E75; color: white; border: none; border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; font-weight: 500; }
+.modal-close { padding: 9px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); }
+
+/* TESTIMONIALS */
+.testi-section { background: var(--color-background-secondary); padding: 28px 20px 32px; border-top: 0.5px solid var(--color-border-tertiary); }
+.testi-heading { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.testi-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px; }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.testi-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.testi-top { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; color: #085041; flex-shrink: 0; }
+.testi-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.testi-loc { font-size: 12px; color: var(--color-text-secondary); }
+.stars { color: #E9A800; font-size: 13px; }
+.testi-badge { display: inline-block; font-size: 10px; padding: 2px 8px; background: #E1F5EE; color: #085041; border-radius: 10px; }
+.testi-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.testi-product { font-size: 11px; color: #0F6E56; }
+
+/* ABOUT PAGE */
+.about-hero { background: #E1F5EE; padding: 40px 24px; text-align: center; }
+.about-hero h1 { font-size: 24px; font-weight: 500; color: #085041; margin-bottom: 8px; }
+.about-hero p { font-size: 14px; color: #0F6E56; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+.about-body { padding: 28px 24px; }
+.about-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 20px; margin-bottom: 14px; }
+.about-card h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+.about-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; }
+.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+.stat-box { background: #E1F5EE; border-radius: var(--border-radius-md); padding: 16px 10px; text-align: center; }
+.stat-num { font-size: 22px; font-weight: 500; color: #085041; }
+.stat-lbl { font-size: 11px; color: #0F6E56; margin-top: 2px; }
+
+/* CONTACT PAGE */
+.contact-hero { background: #E1F5EE; padding: 36px 24px; text-align: center; }
+.contact-hero h1 { font-size: 24px; font-weight: 500; color: #085041; margin-bottom: 6px; }
+.contact-hero p { font-size: 14px; color: #0F6E56; }
+.contact-body { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.contact-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+.contact-icon { width: 44px; height: 44px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.contact-icon svg { width: 20px; height: 20px; }
+.contact-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 3px; }
+.contact-val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.contact-val a { color: #0F6E56; text-decoration: none; }
+.contact-note { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.enquiry-box { background: #E1F5EE; border-radius: var(--border-radius-lg); padding: 20px 24px; margin: 0 24px 24px; text-align: center; }
+.enquiry-box p { font-size: 13px; color: #0F6E56; margin-bottom: 10px; }
+.call-big-btn { display: inline-block; padding: 11px 28px; background: #1D9E75; color: white; border: none; border-radius: var(--border-radius-md); font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; }
+
+/* TRUST + FOOTER */
+.trust-bar { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 20px; border-top: 0.5px solid var(--color-border-tertiary); }
+.trust-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); }
+.trust-dot { width: 7px; height: 7px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; }
+.footer { padding: 12px 20px; border-top: 0.5px solid var(--color-border-tertiary); font-size: 11px; color: var(--color-text-secondary); text-align: center; }
+</style>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="logo-block" onclick="showPage('home')">
+    <div class="logo-line1">Lalit Tigga</div>
+    <div class="logo-line2">DayJoy</div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" id="nav-home" onclick="showPage('home')">Products</button>
+    <button class="nav-btn" id="nav-about" onclick="showPage('about')">About</button>
+    <button class="nav-btn" id="nav-contact" onclick="showPage('contact')">Contact</button>
+  </div>
+</div>
+
+<!-- BUY NOW MODAL (kept but not used for ordering) -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <h3 id="modalName">Product Name</h3>
+    <div class="modal-price" id="modalPrice">₹999</div>
+    <p>To place your order, call or message Lalit Tigga directly. We ensure fast delivery of genuine DayJoy products.</p>
+    <div class="modal-contact">
+      <div>Enquiry & Orders — Lalit Tigga DayJoy</div>
+      <a href="tel:+917033823897">+91 70338 23897</a>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-call" onclick="window.open('tel:+917033823897')">Call Now</button>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-eyebrow">Lalit Tigga — official DayJoy distributor</div>
+    <h1>DayJoy Health Care Products</h1>
+    <p>100% genuine products — same as on dayjoy.in</p>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="filter()" />
+      <button onclick="filter()">Search</button>
+    </div>
+  </div>
+
+  <div class="section-hd">
+    <div class="section-label">Health Care — <span id="countLabel">24 products</span></div>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testi-section">
+    <div class="testi-heading">What DayJoy customers say</div>
+    <div class="testi-sub">Real health transformations from dayjoy.in/Testimonials</div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">RK</div><div><div class="testi-name">Rajesh Kumar</div><div class="testi-loc">Jharkhand</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">Diabetes</div>
+        <div class="testi-text">My sugar levels were uncontrolled for years. After 3 months of DayJoy products my doctor was surprised by the improvement. Feeling much more energetic now.</div>
+        <div class="testi-product">Product: Di-beat (60 Tab)</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">SP</div><div><div class="testi-name">Sunita Pradhan</div><div class="testi-loc">Odisha</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">Weight Loss</div>
+        <div class="testi-text">I lost 8 kg in 2 months with DayJoy's wellness routine. The products are natural and I had no side effects. My confidence has come back completely.</div>
+        <div class="testi-product">Product: Ample Meal Nutritional Shake</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">AM</div><div><div class="testi-name">Anita Mahto</div><div class="testi-loc">West Bengal</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">High Creatinine</div>
+        <div class="testi-text">My creatinine was very high. After 45 days of DayJoy, my kidney function improved significantly. My family cannot believe the difference in my reports.</div>
+        <div class="testi-product">Product: Adiliv (60 Tab)</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">GR</div><div><div class="testi-name">Gangadhar Rao</div><div class="testi-loc">Andhra Pradesh</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">Heart Health</div>
+        <div class="testi-text">I was suffering from chest discomfort and fatigue. DayJoy's Adicardial helped me tremendously. Blood pressure is now stable and I feel active throughout the day.</div>
+        <div class="testi-product">Product: Adicardial Syrup (500ml)</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">KB</div><div><div class="testi-name">Kalpana Baruah</div><div class="testi-loc">Assam</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">Hemoglobin</div>
+        <div class="testi-text">My hemoglobin was very low and I felt weak always. Within 60 days my blood report showed real improvement. I now feel strong and active every day.</div>
+        <div class="testi-product">Product: Amla Extract (60 Veg Capsules)</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="avatar">MS</div><div><div class="testi-name">Mohd. Salim</div><div class="testi-loc">Bihar</div></div></div>
+        <div class="stars">★★★★★</div>
+        <div class="testi-badge">Digestive Health</div>
+        <div class="testi-text">Gas and acidity were ruining my daily life. Gas-O-Free has been a lifesaver — within one week my digestion improved completely. Very happy with the results.</div>
+        <div class="testi-product">Product: Gas-O-Free (500ml)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item"><div class="trust-dot"></div>100% genuine DayJoy products</div>
+    <div class="trust-item"><div class="trust-dot"></div>Same MRP as dayjoy.in</div>
+    <div class="trust-item"><div class="trust-dot"></div>Fast delivery across India</div>
+    <div class="trust-item"><div class="trust-dot"></div>Call us to order anytime</div>
+  </div>
+  <div class="footer">© 2026 Lalit Tigga DayJoy. Authorised DayJoy Distributor. All rights reserved.</div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <h1>About Lalit Tigga DayJoy</h1>
+    <p>We are an authorised distributor of DayJoy health products, committed to bringing genuine wellness solutions to your doorstep across India.</p>
+  </div>
+  <div class="about-body">
+    <div class="about-stats">
+      <div class="stat-box"><div class="stat-num">24+</div><div class="stat-lbl">Health products</div></div>
+      <div class="stat-box"><div class="stat-num">100%</div><div class="stat-lbl">Genuine & certified</div></div>
+      <div class="stat-box"><div class="stat-num">All India</div><div class="stat-lbl">Delivery</div></div>
+    </div>
+    <div class="about-card">
+      <h3>Who we are</h3>
+      <p>Lalit Tigga DayJoy is an official authorised distributor of DayJoy Marketing Private Limited. We promote and sell the complete range of DayJoy health care products, ensuring every product you receive is 100% genuine and sourced directly from DayJoy.</p>
+    </div>
+    <div class="about-card">
+      <h3>About DayJoy</h3>
+      <p>DayJoy Marketing is a leading direct selling company and wellness brand from India, committed to delivering top-notch lifestyle and health products. DayJoy's health range — sold under the Curind and Asthprash brands — is formulated using natural ingredients and backed by an in-house R&D team. DayJoy operates under the Adila Group and is headquartered in Kota, Rajasthan.</p>
+    </div>
+    <div class="about-card">
+      <h3>Why buy from us</h3>
+      <p>All products are priced at the official MRP — exactly the same as on dayjoy.in. We offer personalised service, fast delivery, and direct support from Lalit Tigga. You can call us anytime to get product guidance, check availability, or place your order.</p>
+    </div>
+  </div>
+  <div class="footer">© 2026 Lalit Tigga DayJoy. Authorised DayJoy Distributor.</div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="contact-hero">
+    <h1>Contact us</h1>
+    <p>Reach out to Lalit Tigga for product enquiries, orders & delivery information</p>
+  </div>
+  <div class="contact-body">
+    <div class="contact-card">
+      <div class="contact-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Phone & enquiry</div>
+        <div class="contact-val"><a href="tel:+917033823897">+91 70338 23897</a></div>
+        <div class="contact-note">Call or SMS for orders & product info</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Distributor</div>
+        <div class="contact-val">Lalit Tigga</div>
+        <div class="contact-note">Authorised DayJoy distributor</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253"/></svg>
+      </div>
+      <div>
+        <div class="contact-label">Official DayJoy website</div>
+        <div class="contact-val"><a href="https://www.dayjoy.in" target="_blank">www.dayjoy.in</a></div>
+        <div class="contact-note">Browse full product catalogue</div>
+      </div>
+    </div>
+  </div>
+  <div class="enquiry-box">
+    <p>Ready to order? Call Lalit Tigga now for fast delivery of genuine DayJoy products anywhere in India.</p>
+    <a class="call-big-btn" href="tel:+917033823897">Call +91 70338 23897</a>
+  </div>
+  <div class="footer">© 2026 Lalit Tigga DayJoy. Authorised DayJoy Distributor.</div>
+</div>
+
+<script>
+const BASE = 'https://www.dayjoy.in/ProductImages/';
+const ORDER_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf2yorkmmo4RWLPVvUUcAMyIyPq0-xLscB7DtzXPdqoqHtgDw/viewform?usp=publish-editor';
+
+const products = [
+  { name: 'Adicardial 120 Tablets', price: 2099, img: BASE + 'AdicardialTablets120.webp' },
+  { name: 'Adicardial Syrup (500ml)', price: 1399, img: BASE + 'AdicardialSyrup500ml.webp' },
+  { name: 'Adila Forte (30 Tab)', price: 1499, img: BASE + 'AdilaForte_30Tab.webp' },
+  { name: 'Adila Forte (60 Tabs)', price: 2999, img: BASE + 'Adilaforte_60Tab.webp' },
+  { name: 'Adilipo (120 Tablets)', price: 2699, img: BASE + 'Adilipo_120Tab.webp' },
+  { name: 'Adilipo (60 Tablets)', price: 1499, img: BASE + 'Adilipo_60Tab.webp' },
+  { name: 'Adiliv (60 Tab)', price: 1199, img: BASE + 'Adiliv_60Tab.webp' },
+  { name: 'Advanced Calcium Tablets', price: 999, img: BASE + 'CalciumTablets.webp' },
+  { name: 'Aloevera With Guava Juice (1L)', price: 1499, img: BASE + 'AloeVeraJuice1L.webp' },
+  { name: 'Amla Extract (60 Veg Capsules)', price: 499, img: BASE + 'Amla_Extract.webp' },
+  { name: 'Ample Meal - Nutritional Shake (500g)', price: 2699, img: BASE + '4b16d69a-8ef0-45d7-97a4-7c0208b04ae2Ample meal.jpeg' },
+  { name: 'Apple Cider Vinegar (3X20 Tablets)', price: 1425, img: BASE + '13b8d84b-4e8d-4ab9-b507-3c5aa0d1ed07Apple Cider.jpeg' },
+  { name: 'Arogya Churn (100g)', price: 189, img: BASE + '65478d47-68b0-44a9-99f8-62b8ec48ab92ArogyaChurn100g.Webp' },
+  { name: 'Ashvagandha Extract (60 Veg Capsules)', price: 499, img: BASE + 'Ashvagandha_Extract.webp' },
+  { name: 'Astheal Cough Syrup (100ml)', price: 199, img: BASE + 'Astheal_CoughSyrup.webp' },
+  { name: 'Asthprash (300 grams)', price: 2999, img: BASE + 'Asthprash_min.webp' },
+  { name: 'Di-beat (60 Tab)', price: 1199, img: BASE + 'Dibeat60tab.webp' },
+  { name: 'Eye Elixir Drops', price: 149, img: BASE + 'Eye drops 01.jpeg' },
+  { name: 'Eye Health ++ (60 Capsules)', price: 1799, img: BASE + 'Eye cap.01.jpeg' },
+  { name: 'Gas-O-Free (200ml)', price: 599, img: BASE + 'GasOFree_200ml.webp' },
+  { name: 'Gas-O-Free (500ml)', price: 1399, img: BASE + 'GasOFree500ml.webp' },
+  { name: 'Giloe Extract (60 Veg Capsules)', price: 499, img: BASE + 'Giloe60Veg.webp' },
+  { name: 'Golden Elixir - Nano Curcumin Drops', price: 799, img: BASE + 'WhatsApp Image 2024-07-26 at 12.41.18 PM.jpeg' },
+  { name: 'Seabuckthorn Juice (1 Ltr.)', price: 2999, img: BASE + 'SeabuckthronJuice_1L.webp' },
+];
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openModal(name, price) {
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalPrice').textContent = '₹' + price.toLocaleString('en-IN') + ' (incl. all taxes)';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+function filter() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const list = q ? products.filter(p => p.name.toLowerCase().includes(q)) : products;
+  document.getElementById('countLabel').textContent = list.length + ' products';
+  render(list);
+}
+
+function render(list) {
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = '<p style="padding:20px;color:var(--color-text-secondary);font-size:14px;">No products found.</p>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="card">
+      <div class="img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'" /></div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <div class="card-footer">
+          <div class="price">₹${p.price.toLocaleString('en-IN')}</div>
+          <button class="buy-btn" onclick="window.open('${ORDER_FORM_URL}', '_blank')">Buy Now</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+render(products);
+</script>
